@@ -10,7 +10,8 @@ const app = express();
 const getAllPokemon = async () => {
   try {
     const res = await fetch(" https://pokeapi.co/api/v2/pokemon?limit=151");
-    const json = res.json();
+    const json = await res.json();
+    console.table(json.results);
     return json;
   } catch (err) {
     console.log(err);
