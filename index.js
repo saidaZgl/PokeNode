@@ -23,9 +23,13 @@ app.use(express.static(path.join(__dirname, "public")));
 app.engine(".hbs", exphbs({ extname: ".hbs" }));
 app.set("view engine", ".hbs");
 
-app.get("/", (req, res) => {
-  const pokemons = getAllPokemon();
-  res.render("home", { title: "Home", subTitle: "My home page." });
+app.get("/", async (req, res) => {
+  try {
+    const pokemons = await getAllPokemon();
+    res.render("home", { pokemons });
+  } catch (err) {
+    console.log(err);
+  }
 });
 
 app.get("/:title", (req, res) => {
