@@ -7,30 +7,28 @@ const PORT = process.env.PORT || 5003;
 
 const app = express();
 
-const getAllPokemon = async () => {
-  try {
-    const res = await fetch(" https://pokeapi.co/api/v2/pokemon?limit=151");
-    const json = await res.json();
-    console.table(json.results);
-    return json;
-  } catch (err) {
-    console.log(err);
-  }
-};
+const catchErrors = (asyncFunction) => (...args) =>
+  asyncFunction(...args).catch(console.error);
+
+const getAllPokemon = catchErrors(async () => {
+  const res = await fetch(" https://pokeapi.co/api/v2/pokemon?limit=151");
+  const json = await res.json();
+  console.table(json.results);
+  return json;
+});
 
 // Middleware
 app.use(express.static(path.join(__dirname, "public")));
 app.engine(".hbs", exphbs({ extname: ".hbs" }));
 app.set("view engine", ".hbs");
 
-app.get("/", async (req, res) => {
-  try {
+app.get(
+  "/",
+  catchErrors(async (req, res) => {
     const pokemons = await getAllPokemon();
     res.render("home", { pokemons });
-  } catch (err) {
-    console.log(err);
-  }
-});
+  })
+);
 
 app.get("/:title", (req, res) => {
   const title = req.params.title;
