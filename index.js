@@ -41,6 +41,11 @@ app.get(
   })
 );
 
+app.post("/search", (req, res) => {
+  const search = req.body.search;
+  res.redirect(`/${search}`);
+});
+
 app.get("/notFound", (req, res) => res.render("notFound"));
 
 app.get(
