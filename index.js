@@ -38,12 +38,18 @@ app.get(
   })
 );
 
+app.get("/notFound", (req, res) => res.render("notFound"));
+
 app.get(
   "/:pokemon",
   catchErrors(async (req, res) => {
     const search = req.params.pokemon;
     const pokemon = await getPokemon(search);
-    res.render("pokemon", { pokemon });
+    if (pokemon) {
+      res.render("pokemon", { pokemon });
+    } else {
+      res.redirect("notFound");
+    }
   })
 );
 
