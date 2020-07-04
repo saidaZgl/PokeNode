@@ -2,6 +2,8 @@ const express = require("express");
 const exphbs = require("express-handlebars");
 const fetch = require("node-fetch");
 const path = require("path");
+// eslint-disable-next-line no-unuded-vars
+const helpers = require("handlebars-helpers")(["string"]);
 
 const PORT = process.env.PORT || 5003;
 
