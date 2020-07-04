@@ -2,6 +2,8 @@ const express = require("express");
 const exphbs = require("express-handlebars");
 const fetch = require("node-fetch");
 const path = require("path");
+const boyParser = require("body-parser");
+const bodyParser = require("body-parser");
 // eslint-disable-next-line no-unuded-vars
 const helpers = require("handlebars-helpers")(["string"]);
 
@@ -29,6 +31,7 @@ const getPokemon = catchErrors(async (pokemon = "1") => {
 app.use(express.static(path.join(__dirname, "public")));
 app.engine(".hbs", exphbs({ extname: ".hbs" }));
 app.set("view engine", ".hbs");
+app.use(bodyParser.urlencoded({ extended: false }));
 
 app.get(
   "/",
